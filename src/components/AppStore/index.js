@@ -1,3 +1,8 @@
+import {Component} from 'react'
+import './index.css'
+import TabItem from '../TabItem/index'
+import AppItem from '../AppItem/index'
+
 const tabsList = [
   {tabId: 'SOCIAL', displayText: 'Social'},
   {tabId: 'GAMES', displayText: 'Games'},
@@ -288,3 +293,74 @@ const appsList = [
 ]
 
 // Write your code here
+class AppStore extends Component {
+  state = {activeTabId: '', searchInput: ''}
+
+  getTabRelatedItems = () => {
+    const {activeTabId, searchInput} = this.state
+    const filteredApps = appsList.filter(
+      eachApp =>
+        eachApp.category === activeTabId &&
+        eachApp.appName.toLowerCase().includes(searchInput.toLowerCase()),
+    )
+    return filteredApps
+  }
+
+  searchApp = event => {
+    this.setState({searchInput: event.target.value})
+  }
+
+  selectTab = tabId => {
+    this.setState({activeTabId: tabId})
+  }
+
+  render() {
+    const filteredApps = this.getTabRelatedItems()
+    const {activeTabId, searchInput} = this.state
+    const displayAppsList =
+      activeTabId !== ''
+        ? filteredApps
+        : appsList.filter(eachApp =>
+            eachApp.appName.toLowerCase().includes(searchInput.toLowerCase()),
+          )
+    return (
+      <div className="apps-container">
+        <h1>App Store</h1>
+        <div className="input-search-container">
+          <input
+            type="search"
+            className="input"
+            placeholder="Search"
+            onChange={this.searchApp}
+          />
+          <img
+            src="https://assets.ccbp.in/frontend/react-js/app-store/app-store-search-img.png"
+            alt="search icon"
+            className="search-img"
+          />
+        </div>
+        <nav>
+          <div className="tabs-container">
+            {tabsList.map(eachTab => (
+              <TabItem
+                eachTab={eachTab}
+                selectTab={this.selectTab}
+                key={eachTab.tabId}
+                isActive={activeTabId}
+              />
+            ))}
+          </div>
+        </nav>
+        <div>
+          <ul className="all-apps-container">
+            {displayAppsList.map(eachApp => (
+              <AppItem eachApp={eachApp} key={eachApp.appId} />
+            ))}
+          </ul>
+        </div>
+      </div>
+    )
+  }
+}
+
+export default AppStore

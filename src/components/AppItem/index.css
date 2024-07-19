@@ -1,1 +1,29 @@
 /* Write your CSS here */
+.app-container {
+  background-color: #ffffff;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+  max-width: 30vw;
+}
+
+.img {
+  height: 120px;
+  width: 120px;
+}
+
+/* @media screen and (max-width: 763px) {
+  .app-container {
+    min-width: 20vh;
+  }
+
+  .img {
+    height: 80px;
+    width: 80px;
+  }
+} */
